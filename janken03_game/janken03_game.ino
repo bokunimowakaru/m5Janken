@@ -1,5 +1,5 @@
 /*******************************************************************************
-Janken 03 msg for M5Stack ～ジャンケン対戦の勝敗を表示してみよう～
+Janken 03 game for M5Stack ～ジャンケン対戦の勝敗を表示してみよう～
 
 ・本体LCD面のボタンを押すと、ボタンに応じたジャンケンの手を表示します。
 ・ESP32マイコンがランダムで手を表示します。
@@ -19,11 +19,12 @@ https://docs.m5stack.com/#/en/arduino/arduino_api
 
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み
 
+int score = 0;                                  // 勝ち得点
+int debts = 0;                                  // 負け得点
+
 void disp(String filename, String msg=""){      // LCDにJPEGファイルを表示する
-    char s[14] = "/";                           // 13文字収容可能な文字列変数
-    filename.toCharArray(s + strlen(s),9);      // ファイル名を配列変数sへ変換
-    strncat(s, ".jpg", 5);                      // 配列型文字列変数sに.jpgを追加
-    M5.Lcd.drawJpgFile(SD, s);                  // 配列型文字列変数sの画像を表示
+    filename = "/" + filename + ".jpg";         // 先頭に/、後に拡張子jpgを追加
+    M5.Lcd.drawJpgFile(SD, filename.c_str());   // 配列型文字列変数sの画像を表示
     M5.Lcd.drawCentreString(msg, 160, 96, 4);   // 中央にメッセージ文字列を表示
 }
 
@@ -51,9 +52,12 @@ void loop(){                                    // 繰り返し実行する関�
     String msg = "Draw";                        // 変数msgに「引き分け」を代入
     if((jan / 2 + 1) % 3 == (ken / 2) ){        // ユーザの方が強い手のとき
         msg = "You Win";                        // 「勝ち」
+        score += 1;                             // スコアに1点を追加
     }else if(jan != ken){                       // 勝ちでも引き分けでも無いとき
         msg = "You Lose";                       // 「負け」
+        debts += 1;                             // 負け回数に1回を追加
     }
-    M5.Lcd.drawCentreString(msg, 160, 96, 4);   // 勝敗を表示
+    M5.Lcd.drawCentreString(msg, 160, 88, 4);   // 勝敗を表示
+    M5.Lcd.drawCentreString(String(score)+":"+String(debts), 160, 112, 4);
 }
 

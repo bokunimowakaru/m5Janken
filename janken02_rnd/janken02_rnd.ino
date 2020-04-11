@@ -19,10 +19,8 @@ https://docs.m5stack.com/#/en/arduino/arduino_api
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み
 
 void disp(String filename, String msg=""){      // LCDにJPEGファイルを表示する
-    char s[14] = "/";                           // 13文字収容可能な文字列変数
-    filename.toCharArray(s + strlen(s),9);      // ファイル名を配列変数sへ変換
-    strncat(s, ".jpg", 5);                      // 配列型文字列変数sに.jpgを追加
-    M5.Lcd.drawJpgFile(SD, s);                  // 配列型文字列変数sの画像を表示
+    filename = "/" + filename + ".jpg";         // 先頭に/、後に拡張子jpgを追加
+    M5.Lcd.drawJpgFile(SD, filename.c_str());   // 配列型文字列変数sの画像を表示
     M5.Lcd.drawCentreString(msg, 160, 96, 4);   // 中央にメッセージ文字列を表示
 }
 
