@@ -1,20 +1,13 @@
 /*******************************************************************************
 Janken 03 game for M5Stack ～ジャンケン対戦の勝敗を表示してみよう～
 
+・前サンプルに、勝敗判定、得点をカウントする機能を追加しました。
+
 ・本体LCD面のボタンを押すと、ボタンに応じたジャンケンの手を表示します。
 ・ESP32マイコンがランダムで手を表示します。
 ・勝ち負けを表示します。
 
                                           Copyright (c) 2019-2020 Wataru KUNINO
-********************************************************************************
-【参考文献】
-Arduino IDE 開発環境イントール方法：
-https://github.com/m5stack/M5Stack/blob/master/docs/getting_started_ja.md
-https://docs.m5stack.com/#/en/related_documents/Arduino_IDE
-
-M5Stack Arduino Library API 情報：
-https://docs.m5stack.com/#/ja/api
-https://docs.m5stack.com/#/en/arduino/arduino_api
 *******************************************************************************/
 
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み

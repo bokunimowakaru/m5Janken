@@ -3,7 +3,7 @@ Janken 04 lan for M5Stack ～ローカル・ネットワーク・ジャンケン
 
 ・同じWi-Fiアクセスポイントに接続した2台のM5Stackで通信対決
 
-                                          Copyright (c) 2019-2020 Wataru KUNINO
+                                          Copyright (c) 2020 Wataru KUNINO
 *******************************************************************************/
 
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み

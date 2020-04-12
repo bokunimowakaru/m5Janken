@@ -3,7 +3,7 @@ Janken 04 lan for M5Stack ～クラウド・サーバとジャンケン対決～
 
 ・クラウド・サーバ bokunimo.com に、Webインタフェース HTTP GET 接続
 
-                                          Copyright (c) 2019-2020 Wataru KUNINO
+                                          Copyright (c) 2020 Wataru KUNINO
 *******************************************************************************/
 
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み
