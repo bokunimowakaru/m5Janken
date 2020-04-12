@@ -43,13 +43,13 @@ Arduino IDEの[ツール］メニュー内の［ボード］で、［M5Srack-Cor
 - 説明, Usage：  
 	https://bokunimo.com/janken/  
 
-- グー(code=G), ROCK：  
+- グー(throw=G), ROCK：  
 	https://bokunimo.com/janken/?throw=G  
 
-- チョキ(code=C), SCISSORS：  
+- チョキ(throw=C), SCISSORS：  
 	https://bokunimo.com/janken/?throw=C  
 
-- パー(code=P), PAPER：  
+- パー(throw=P), PAPER：  
 	https://bokunimo.com/janken/?throw=P  
 
 ## ご注意
