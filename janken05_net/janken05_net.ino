@@ -14,16 +14,18 @@ Janken 04 lan for M5Stack ～クラウド・サーバとジャンケン対決～
 
 #define SSID "1234ABCD"                         // 無線LANアクセスポイントのSSID
 #define PASS "password"                         // パスワード
-#define URL  "https://bokunimo.com/janken/"
+#define URL  "https://bokunimo.com/janken/"     // クラウドサービスのURL
+
 
 /*******************************************************************************
-SSIDを公開したくない場合は、下記のUSERNAMEにニックネームなどを入力してください。
+SSIDを送信したくない場合は、下記の USER にニックネームなどを入力してください。
 *******************************************************************************/
 
 String USER = "";                               // クラウドへ送信するユーザ名
 
 /*******************************************************************************
-ユーザ名 USER は、半角英文字と数字、8文字までを"で括って入力してください。
+ユーザ名 USER は、半角英文字と数字、8文字までを、"と"の中に入力してください。
+例） String USER = "wataru";
 ********************************************************************************
 ユーザ名 USER は下記の目的でアクセス元の端末を特定するために使用します。
 なるべく実名を避け、ニックネームなどを使用してください。
@@ -46,6 +48,7 @@ String USER = "";                               // クラウドへ送信する�
 
 int score = 0;                                  // 勝ち得点
 int debts = 0;                                  // 負け得点
+int rate  = 0;                                  // 勝率
 
 void disp(String filename, String msg=""){      // LCDにJPEGファイルを表示する
     filename = "/" + filename + ".jpg";         // 先頭に/、後に拡張子jpgを追加
@@ -69,48 +72,41 @@ void loop(){                                    // 繰り返し実行する関�
     int ken=8;
     
     M5.update();                                // ボタン情報を更新
-    if(M5.BtnA.wasPressed()){                   // ボタンAが押されていた時
-        jan = 0;                                // グー(0本指)
-    }
-    if(M5.BtnB.wasPressed()){                   // ボタンBが押されていた時
-        jan = 2;                                // チョキ(2本指)
-    }
-    if(M5.BtnC.wasPressed()){                   // ボタンCが押されていた時
-        jan = 5;                                // チョキ(5本指)
-    }
+    if(M5.BtnA.wasPressed()) jan = 0;           // ボタンAのときはグー(0本指)
+    if(M5.BtnB.wasPressed()) jan = 2;           // ボタンBのときはチョキ(2本指)
+    if(M5.BtnC.wasPressed()) jan = 5;           // ボタンCのときはチョキ(5本指)
     if(jan < 0) return;                         // ボタン押下無し時に戻る
+    disp("janken" + String(jan), "Shoot!");     // 変数janに応じた表示
     
-    disp("janken" + String(jan), "Shoot!"); // 変数janに応じた表示
-    String S = String(URL);
-    S += "?user=" + USER;
-    S += "&throw="+ String(jan);
-    Serial.println("HTTP GET " + S);
-    WiFiClientSecure client; 				// = new WiFiClientSecure;
-    client.setCACert(rootCACertificate);
-    HTTPClient https;
-    if(https.begin(client, S)){  
-        int httpCode = https.GET();			// HTTP 接続の開始
-        if(httpCode != 200 && httpCode != 301){
-            Serial.printf("HTTP ERROR %d\n");
-        }else{
-            S = https.getString();
-            Serial.println(S);
-            ken = atoi(S.substring(S.indexOf("\"net\":")+12).c_str());
-        }
-        https.end();
-    }
-    client.stop();
+    /* クラウドへの接続処理 */
+    String S = String(URL);                     // HTTPリクエスト用の変数
+    S += "?user=" + USER;                       // ユーザ名のクエリを追加
+    S += "&throw="+ String(jan);                // ジャンケンの手を追加
+    Serial.println("HTTP GET " + S);            // シリアルへリクエストを出力
+    WiFiClientSecure client;                    // TLS/TCP/IP接続部の実体を生成
+    client.setCACert(rootCACertificate);        // ルートCA証明書を設定
+    HTTPClient https;                           // HTTP接続部の実体を生成
+    https.begin(client, S);                     // 初期化と接続情報の設定
+    int httpCode = https.GET();                 // HTTP接続の開始
+    S = "HTTP Status " + String(httpCode);      // HTTPステータスを変数Sへ代入
+    S += "\n" + https.getString();              // 改行と受信結果を変数Sへ追加
+    Serial.println(S);                          // シリアルへ出力
+    if(httpCode == 200 || httpCode == 301){     // HTTP接続に成功したとき
+        ken = atoi(S.substring(S.indexOf("\"net\":")+12).c_str());
+        rate = atoi(S.substring(S.indexOf("\"win rate\":")+12).c_str());
+    }                                           // 受信結果Sの手と勝率を各変数へ
+    https.end();                                // HTTPクライアントの処理を終了
+    client.stop();                              // WiFi
+    
+    /* 勝敗判定・表示処理 */
     String msg = "Draw";                        // 変数msgに「引き分け」を代入
-    if((jan / 2 + 1) % 3 == (ken / 2) ){        // ユーザの方が強い手のとき
+    if((jan / 2 + 1) % 3 == (ken / 2)){         // ユーザの方が強い手のとき
         msg = "You Win";                        // 「勝ち」
         score += 1;                             // スコアに1点を追加
     }else if(jan != ken){                       // 勝ちでも引き分けでも無いとき
         msg = "You Lose";                       // 「負け」
         debts += 1;                             // 負け回数に1回を追加
     }
-    disp("janken" + String(jan) + String(ken), msg); // ESP32マイコンの手を表示
+    if(rate) msg += ", rate=" + String(rate);   // 勝率をmsgへ追加
+    disp("janken"+String(jan)+String(ken),msg); // 画像と勝敗表示を更新
 }
-/*
-HTTP GET https://bokunimo.com/janken/?user=wataru&throw=0
-{"statusCode": 200, "body": {"status": "ok", "message": "I won wataru", "you": ["G", 0, "rock", "\u30b0\u30fc"], "net": ["P", 5, "paper", "\u30d1\u30fc"], "win rate": 37}}
-*/
