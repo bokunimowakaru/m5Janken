@@ -23,8 +23,8 @@ https://docs.m5stack.com/#/en/arduino/arduino_api
 
 void setup(){                                   // 起動時に一度だけ実行する関数
     M5.begin();                                 // M5Stack用ライブラリの起動
-    M5.Lcd.fillScreen(BLACK);                   // LCDを消去
     M5.Lcd.drawJpgFile(SD, "/janken8.jpg");     // 背景を表示
+    M5.Lcd.setTextColor(TFT_BLACK);             // テキスト文字を黒に設定
     M5.Lcd.println("Example 01 Janken");        // LCDにタイトルを表示
 }
 
