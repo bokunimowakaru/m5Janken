@@ -56,7 +56,7 @@ void loop(){                                    // 繰り返し実行する関�
 
     /* ジャンケン受信部 */
     int len = udp.parsePacket();                // 受信パケット長を変数lenに代入
-    String ip_S = String(udp.remoteIP()[3]);	// 送信者IPアドレスの末尾を代入
+    String ip_S = String(udp.remoteIP()[3]);    // 送信者IPアドレスの末尾を代入
     if(len == 0) return;                        // 未受信のときはloop()の先頭へ
     char s[11];                                 // 受信データ用変数(10文字まで)
     memset(s, 0, 11);                           // 文字列変数sの初期化
