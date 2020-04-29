@@ -92,8 +92,8 @@ void loop(){                                    // 繰り返し実行する関�
     S += "\n" + https.getString();              // 改行と受信結果を変数Sへ追加
     Serial.println(S);                          // シリアルへ出力
     if(httpCode == 200 || httpCode == 301){     // HTTP接続に成功したとき
-        ken = atoi(S.substring(S.indexOf("\"net\":")+12).c_str());
-        rate = atoi(S.substring(S.indexOf("\"win rate\":")+12).c_str());
+        ken = S.substring(S.indexOf("\"net\":")+12).toInt();
+        rate = S.substring(S.indexOf("\"win rate\":")+12).toInt();
     }                                           // 受信結果Sの手と勝率を各変数へ
     https.end();                                // HTTPクライアントの処理を終了
     client.stop();                              // WiFi
