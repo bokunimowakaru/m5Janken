@@ -42,7 +42,7 @@ void loop(){                                    // 繰り返し実行する関�
     M5.update();                                // ボタン情報を更新
     if(M5.BtnA.wasPressed()) pong = 0;          // ボタンAのときはグー(0本指)
     if(M5.BtnB.wasPressed()) pong = 2;          // ボタンBのときはチョキ(2本指)
-    if(M5.BtnC.wasPressed()) pong = 5;          // ボタンCのときはチョキ(5本指)
+    if(M5.BtnC.wasPressed()) pong = 5;          // ボタンCのときはパー(5本指)
     
     /* ジャンケン送信部 */
     IPAddress IP = WiFi.localIP();              // IPアドレスを取得
