@@ -91,7 +91,7 @@ void loop(){                                    // 繰り返し実行する関�
     S = "HTTP Status " + String(httpCode);      // HTTPステータスを変数Sへ代入
     S += "\n" + https.getString();              // 改行と受信結果を変数Sへ追加
     Serial.println(S);                          // シリアルへ出力
-    if(httpCode == 200 || httpCode == 301){     // HTTP接続に成功したとき
+    if(httpCode == 200){                        // HTTP接続に成功したとき
         ken = S.substring(S.indexOf("\"net\":")+12).toInt();
         rate = S.substring(S.indexOf("\"win rate\":")+12).toInt();
     }                                           // 受信結果Sの手と勝率を各変数へ
