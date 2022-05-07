@@ -72,6 +72,7 @@ void loop(){                                    // 繰り返し実行する関�
     int ken=8;
     
     M5.update();                                // ボタン情報を更新
+    delay(10);    // 誤作動防止(参考文献 github.com/m5stack/M5Stack/issues/52 )
     if(M5.BtnA.wasPressed()) jan = 0;           // ボタンAのときはグー(0本指)
     if(M5.BtnB.wasPressed()) jan = 2;           // ボタンBのときはチョキ(2本指)
     if(M5.BtnC.wasPressed()) jan = 5;           // ボタンCのときはパー(5本指)

@@ -30,6 +30,7 @@ void setup(){                                   // 起動時に一度だけ実�
 
 void loop(){                                    // 繰り返し実行する関数
     M5.update();                                // ボタン情報を更新
+    delay(10);    // 誤作動防止(参考文献 github.com/m5stack/M5Stack/issues/52 )
     if( M5.BtnA.wasPressed() ){                 // ボタンAが押されていた時
         M5.Lcd.drawJpgFile(SD, "/janken0.jpg"); // LCDにJPEGファイルを表示する
     }
