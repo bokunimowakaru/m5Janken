@@ -54,6 +54,7 @@ Arduino IDEの[ツール］メニュー内の［ボード］で、［M5Srack-Cor
 
 ## ご注意
 - janken05_netは、クラウド・サーバへSSIDの一部(後部4文字)またはニックネームを送信します
+（詳細についてはソースコード内の説明をお読みください）
 - 自由に利用できますが、無保証です。詳細はソースコード、README、[LICENSE](https://github.com/bokunimowakaru/m5Janken/blob/master/LICENSE)をご覧ください
 
 ### MIT License
