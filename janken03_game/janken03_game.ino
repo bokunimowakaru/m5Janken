@@ -16,8 +16,7 @@ int score = 0;                                  // 勝ち得点
 int debts = 0;                                  // 負け得点
 
 void disp(String filename, String msg=""){      // LCDにJPEGファイルを表示する
-    filename = "/" + filename + ".jpg";         // 先頭に/、後に拡張子jpgを追加
-    M5.Lcd.drawJpgFile(SD, filename.c_str());   // 配列型文字列変数sの画像を表示
+    drawJpgHeadFile(filename);                  // filenameに応じた画像をLCD表示
     M5.Lcd.drawCentreString(msg, 160, 96, 4);   // 中央にメッセージ文字列を表示
 }
 
