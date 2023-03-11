@@ -17,6 +17,12 @@ Janken (or Rock Paper Scissors) is a pupluer game in Japan:
 - Simultaneously, the other player (or Janken Server) also throws.
 - Throwed ROCK will win from SCISSORS hand, but it will lose PAPER hand.
 
+## 対応 M5Stack
+
+- M5Stack BASIC  
+- M5Stack GLAY  
+- M5Stack Core2 (core2フォルダに収録)  
+
 ## M5Stack Janken 猜拳 Examples の使い方
 
 - プログラムは Arduino IDE でコンパイルしてください
